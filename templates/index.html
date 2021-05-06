@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  {% import "bootstrap/wtf.html" as wtf %}
+  <meta charset="utf-8">
+  <title>Englify</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <!-- Bootstrap CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+  <!-- Bootstrap js scripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+  <div class="main">
+    {% if word_data is not none %}
+    <div class="form-div">
+      {{ wtf.quick_form(form, novalidate=True, button_map={'submit': 'warning'}) }}
+    </div>
+
+    <div class="word-info">
+      {% if word_data == 0 %}
+      <div class="meaning">
+        <p>Sorry pal, we couldn't find definitions for the word you were looking for!</p>
+      </div>
+      {% else %}
+      {% for element in word_data %}
+      <div class="meaning">
+        {% if element['partOfSpeech'] != "undefined" %}
+        <p>Part of speech: {{ element['partOfSpeech'] }}</p>
+        {% endif %}
+        <p>Definitions: </p>
+        {% for def in element['definitions'] %}
+        <p>{{ element['definitions'].index(def) + 1 }}. {{ def['definition'] }}</p>
+        {% if 'example' in def.keys() %}
+        <p>Example: {{ def['example'] }}</p>
+        {% endif %}
+        {% if def['synonyms']|count > 0 %}
+        <p>Synonyms: {{ def['synonyms'] }}</p>
+        {% endif %}
+        {% endfor %}
+      </div>
+      {% endfor %}
+      {% endif %}
+    </div>
+    {% else %}
+    <div style="padding: 12%;">
+      {{ wtf.quick_form(form, novalidate=True, button_map={'submit': 'warning'}) }}
+    </div>
+    {% endif %}
+    </div>
+</body>
+
+</html>

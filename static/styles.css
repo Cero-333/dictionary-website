@@ -1,0 +1,19 @@
+.main {
+  padding: 5%;
+  background-color: #e1e5ea;
+}
+
+.meaning {
+    padding: 3%;
+    background-color: #faf3f3;
+    border-radius: 12px;
+    margin: 10px;
+}
+
+.word-info {
+    margin-top: 7%;
+}
+
+.form-div {
+    padding 7% 15%;
+}
